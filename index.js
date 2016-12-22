@@ -32,7 +32,7 @@ Spider.prototype = {
 		return this.active.length >= this.opts.concurrent;
 	},
 
-	queue: function(url, done) {
+	queue: function(url, done ,newOpts) {
 		if (this.visited[url]) return;
 
 		if (!this.opts.allowDuplicates) {
@@ -41,13 +41,13 @@ Spider.prototype = {
 
 		if (this.full()) {
 			this.log('Queueing', url);
-			this.pending.push([url, done]);
+			this.pending.push([url, done, newOpts]);
 		} else {
-			this.load(url, done);
+			this.load(url, done, newOpts);
 		}
 	},
 
-	load: function(url, done, referrer) {
+	load: function(url, done, newOpts, referrer) {
 		this.log('Loading', url);
 		this.active.push(url);
 
@@ -56,6 +56,11 @@ Spider.prototype = {
 		}
 
 		this.opts.url = url;
+
+		if( newOpts != null && newOpts.headers != null ){
+			this.opts.headers = newOpts.headers
+		}
+
 		this._request(this.opts, function(err, res, _) {
 			if (err) {
 				this.error(err, url);
