@@ -61,6 +61,11 @@ Spider.prototype = {
 			this.opts.headers = newOpts.headers
 		}
 
+		if( this.opts.method.toLowerCase() == 'post' && newOpts != null && newOpts.form != null){
+
+			this.opts.form = newOpts.form
+		}
+
 		this._request(this.opts, function(err, res, _) {
 			if (err) {
 				this.error(err, url);
