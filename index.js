@@ -66,6 +66,12 @@ Spider.prototype = {
 			this.opts.form = newOpts.form
 		}
 
+
+		if( newOpts != null && newOpts.agentClass != null && newOpts.agentOptions != null ){
+			this.opts.agentClass = newOpts.agentClass
+			this.opts.agentOptions = newOpts.agentOptions
+		}
+
 		this._request(this.opts, function(err, res, _) {
 			if (err) {
 				this.error(err, url);
