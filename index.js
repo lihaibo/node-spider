@@ -14,6 +14,20 @@ function Spider(opts) {
 		opts.forever = true;
 	}
 
+	if( opts.agentConfig ){
+		var proxy = "http://"
+
+		if( opts.agentConfig.user && opts.agentConfig.password ){
+			proxy += opts.agentConfig.user + ":" + opts.agentConfig.password + "@"
+		}
+
+		proxy += opts.agentConfig.host + ":" + opts.agentConfig.port
+
+		this.request = request.defaults({'proxy': proxy})
+	} else {
+		this.request = request
+	}
+
 	this.pending = [];
 	this.active = [];
 	this.visited = {};
@@ -93,7 +107,7 @@ Spider.prototype = {
 	// Wrap it for easier mocking
 	_request: function(opts, done) {
 		// All options forwarded to request()
-		request(opts, done);
+		this.request(opts, done);
 	},
 
 	error: function(err, url) {
