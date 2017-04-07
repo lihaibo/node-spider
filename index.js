@@ -80,6 +80,10 @@ Spider.prototype = {
 			this.opts.form = newOpts.form
 		}
 
+		if( this.opts.method.toLowerCase() == 'post' && newOpts != null && newOpts.body != null){
+     			 this.opts.body = newOpts.body
+    		}
+
 
 		if( newOpts != null && newOpts.agentClass != null && newOpts.agentOptions != null ){
 			this.opts.agentClass = newOpts.agentClass
